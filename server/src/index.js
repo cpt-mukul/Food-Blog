@@ -30,7 +30,9 @@ app.use(express.static(path.join(__filename,'./client/blog/build')));
 app.get('*',function(req,res){
   res.sendFile(path.join(__filename,'./client/build/blog/index.html'));
 });
-app.listen(1000, () => console.log("Server Started!!"));
+const port = process.env.PORT || 8080;
+
+app.listen(port, () => console.log(`Server Started!!${port}`));
 
 
 
