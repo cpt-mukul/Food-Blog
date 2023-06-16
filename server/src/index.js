@@ -1,11 +1,12 @@
 import express from "express";
 import cors from "cors"; //->communition between backend and frontend
 import mongoose from "mongoose";
-
+import path from 'path';
+import { fileURLToPath } from 'url';
 import {userRouter} from './routes/users.js'
 import { blogRouter } from "./routes/blogs.js";
 
-const path = require('path');
+// const path = require('path');
 const app = express();
 app.use(express.json()); //data from frontend convert into json;
 app.use(cors());
@@ -21,9 +22,13 @@ mongoose.connect(
       }
 );
 
-app.use(express.static(path.join(__dirname,'./client/blog/build')));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__filename,'./client/blog/build')));
+
 app.get('*',function(req,res){
-  res.sendFile(path.join(__dirname,'./client/build/blog/index.html'));
+  res.sendFile(path.join(__filename,'./client/build/blog/index.html'));
 });
 app.listen(1000, () => console.log("Server Started!!"));
 
